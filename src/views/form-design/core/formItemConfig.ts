@@ -46,7 +46,26 @@ export function setFormDesignComponents(config: IVFormComponent | IVFormComponen
 }
 
 //外部设置的自定义控件
-export const customComponents: IVFormComponent[] = [];
+export const customComponents: IVFormComponent[] = [
+  {
+    component: 'UseSelect',
+    label: '下拉选择2',
+    field: '',
+    colProps: { span: 24 },
+    componentProps: {
+      options: [
+        {
+          label: '选项1',
+          value: '1',
+        },
+        {
+          label: '选项2',
+          value: '2',
+        },
+      ],
+    },
+  },
+];
 
 // 左侧控件列表与初始化的控件属性
 // props.slotName,会在formitem级别生成一个slot,并绑定当前record值

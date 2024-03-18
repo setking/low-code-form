@@ -1,116 +1,39 @@
 <template>
-  <div
-    class="relative !h-full w-full overflow-hidden"
-    :class="{ 'ant-input': props.bordered, 'css-dev-only-do-not-override-kqecok': props.bordered }"
-    ref="el"
-  ></div>
+  <Codemirror v-model:value="code" :options="cmOptions" border ref="cmRef"> </Codemirror>
 </template>
-
-<script lang="ts" setup>
-import { type PropType, ref, onMounted, onUnmounted, watchEffect, watch, unref, nextTick } from 'vue';
-import type { Nullable } from '@vben/types';
-import { useWindowSizeFn } from '@vben/hooks';
-import { useDebounceFn } from '@vueuse/core';
-import { useAppStore } from '@/store/modules/app';
-import CodeMirror from 'codemirror';
-import { MODE } from './../typing';
-// css
-import './codemirror.css';
-import 'codemirror/theme/idea.css';
-import 'codemirror/theme/material-palenight.css';
-// modes
-import 'codemirror/mode/javascript/javascript';
-import 'codemirror/mode/css/css';
-import 'codemirror/mode/htmlmixed/htmlmixed';
+<script setup>
+import { ref, reactive, onMounted, onUnmounted, defineProps } from 'vue';
+import 'codemirror/mode/javascript/javascript.js';
+import Codemirror from 'codemirror-editor-vue3';
+import vueEditStr from '@/config/vueEditStr';
 
 const props = defineProps({
-  mode: {
-    type: String as PropType<MODE>,
-    default: MODE.JSON,
-    validator(value: any) {
-      // 这个值必须匹配下列字符串中的一个
-      return Object.values(MODE).includes(value);
-    },
-  },
-  value: { type: String, default: '' },
-  readonly: { type: Boolean, default: false },
-  bordered: { type: Boolean, default: false },
+  schema: Object,
+  readOnly: Boolean,
 });
 
-const emit = defineEmits(['change']);
+const code = ref('');
 
-const el = ref();
-let editor: Nullable<CodeMirror.Editor>;
-
-const debounceRefresh = useDebounceFn(refresh, 100);
-const appStore = useAppStore();
-
-watch(
-  () => props.value,
-  async (value) => {
-    await nextTick();
-    const oldValue = editor?.getValue();
-    if (value !== oldValue) {
-      editor?.setValue(value ? value : '');
-    }
-  },
-  { flush: 'post' },
-);
-
-watchEffect(() => {
-  editor?.setOption('mode', props.mode);
+const cmRef = ref();
+const cmOptions = reactive({
+  mode: 'text/javascript',
+  lineNumbers: true, // Show line number
+  smartIndent: true, // Smart indent
+  indentUnit: 4, // The smart indent unit is 2 spaces in length
+  foldGutter: true, // Code folding
+  matchBrackets: true,
+  autoCloseBrackets: true,
+  styleActiveLine: true, // Display the style of the selected row
+  readOnly: props.readOnly,
+  // theme: 'neo'
 });
 
-watch(
-  () => appStore.getDarkMode,
-  async () => {
-    setTheme();
-  },
-  {
-    immediate: true,
-  },
-);
-
-function setTheme() {
-  unref(editor)?.setOption('theme', appStore.getDarkMode === 'light' ? 'idea' : 'material-palenight');
-}
-
-function refresh() {
-  editor?.refresh();
-}
-
-async function init() {
-  const addonOptions = {
-    autoCloseBrackets: true,
-    autoCloseTags: true,
-    foldGutter: true,
-    gutters: ['CodeMirror-linenumbers'],
-  };
-
-  editor = CodeMirror(el.value!, {
-    value: '',
-    mode: props.mode,
-    readOnly: props.readonly,
-    tabSize: 2,
-    theme: 'material-palenight',
-    lineWrapping: true,
-    lineNumbers: true,
-    ...addonOptions,
-  });
-  editor?.setValue(props.value);
-  setTheme();
-  editor?.on('change', () => {
-    emit('change', editor?.getValue());
-  });
-}
-
-onMounted(async () => {
-  await nextTick();
-  init();
-  useWindowSizeFn(debounceRefresh);
+onMounted(() => {
+  code.value = vueEditStr(JSON.stringify(props.schema, null, 2));
+  cmRef.value.refresh();
 });
 
 onUnmounted(() => {
-  editor = null;
+  cmRef.value?.destroy();
 });
 </script>

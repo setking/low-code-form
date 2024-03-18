@@ -38,13 +38,6 @@ export const baseFormItemControlAttrs: IBaseFormItemControlAttrs[] = [
     label: '隐藏标签',
   },
   {
-    name: 'colon',
-    label: 'label后面显示冒号',
-    component: 'ElCheckbox',
-    componentProps: {},
-    exclude: ['Grid'],
-  },
-  {
     name: 'hasFeedback',
     label: '输入反馈',
     component: 'ElCheckbox',

@@ -71,6 +71,7 @@ const formModel = ref<any>({});
 const formConfig = ref<IFormConfig>({
   schemas: [],
   layout: 'horizontal',
+  labelPosition: 'left',
   labelLayout: 'flex',
   labelWidth: 100,
   labelCol: {},

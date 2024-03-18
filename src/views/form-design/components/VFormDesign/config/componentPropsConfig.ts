@@ -244,24 +244,6 @@ const componentAttrs: IBaseComponentProps = {
       },
     },
     {
-      name: 'addonBefore',
-      label: '前置标签',
-      component: ElInput,
-      componentProps: {
-        type: 'text',
-        placeholder: '请输入前置标签',
-      },
-    },
-    {
-      name: 'addonAfter',
-      label: '后置标签',
-      component: ElInput,
-      componentProps: {
-        type: 'text',
-        placeholder: '请输入后置标签',
-      },
-    },
-    {
       name: 'maxLength',
       label: '最大长度',
       component: ElInput,
@@ -288,29 +270,29 @@ const componentAttrs: IBaseComponentProps = {
     {
       name: 'autoClearSearchValue',
       label: '是否在选中项后清空搜索框',
-      component: 'Checkbox',
+      component: 'ElCheckbox',
     },
     {
       name: 'labelInValue',
       label: '选项的label包装到value中',
-      component: 'Checkbox',
+      component: 'ElCheckbox',
     },
     {
       name: 'showArrow',
       label: '显示下拉小箭头',
-      component: 'Checkbox',
+      component: 'ElCheckbox',
     },
     {
       name: 'defaultOpen',
       label: '默认展开下拉菜单',
-      component: 'Checkbox',
+      component: 'ElCheckbox',
     },
   ],
   ElCheckbox: [
     {
       name: 'indeterminate',
       label: '设置indeterminate状态',
-      component: 'Checkbox',
+      component: 'ElCheckbox',
     },
   ],
   ElCheckboxGroup: [],

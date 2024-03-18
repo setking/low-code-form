@@ -2,7 +2,7 @@
   <div>
     <div>
       <el-empty v-if="!formConfig.currentItem.key" description="未选择组件"></el-empty>
-      <el-form label-position="left">
+      <el-form ref="form" label-position="left">
         <div v-if="formConfig.currentItem && formConfig.currentItem.componentProps">
           <el-form-item v-for="item in inputOptions" :key="item.name" :label="item.label">
             <div v-if="item.children">
@@ -10,7 +10,7 @@
                 <component
                   v-if="child.component"
                   v-bind="child.componentProps"
-                  v-model:value="formConfig.currentItem.componentProps[item.name][index]"
+                  v-model="formConfig.currentItem.componentProps[item.name][index]"
                   :is="child.component"
                 />
               </template>
@@ -19,7 +19,7 @@
               :is="item.component"
               v-else-if="item.component"
               v-bind="item.componentProps"
-              v-model:value="formConfig.currentItem.componentProps[item.name]"
+              v-model="formConfig.currentItem.componentProps[item.name]"
             />
           </el-form-item>
           <el-form-item label="控制属性">
@@ -27,7 +27,7 @@
               <el-checkbox
                 v-if="showControlAttrs(item.includes)"
                 v-bind="item.componentProps"
-                v-model:checked="formConfig.currentItem.componentProps[item.name]"
+                v-model="formConfig.currentItem.componentProps[item.name]"
               >
                 {{ item.label }}
               </el-checkbox>
@@ -35,7 +35,10 @@
           </el-form-item>
         </div>
         <el-form-item label="关联字段">
-          <el-select mode="multiple" v-model:value="formConfig.currentItem['link']" :options="linkOptions" />
+          <el-select multiple v-model="formConfig.currentItem['link']">
+            <el-option v-for="(item, index) in linkOptions" :key="index" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
     </div>
@@ -53,13 +56,11 @@ import {
   baseComponentControlAttrs,
   componentPropsFuncs,
 } from '../config/componentPropsConfig';
-
 const allOptions = ref([] as Omit<IBaseFormAttrs, 'tag'>[]);
 const showControlAttrs = (includes: string[] | undefined) => {
   if (!includes) return true;
   return includes.includes(formConfig.value.currentItem!.component);
 };
-
 const { formConfig } = useFormDesignState();
 
 if (formConfig.value.currentItem) {

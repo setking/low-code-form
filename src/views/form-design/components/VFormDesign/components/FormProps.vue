@@ -2,10 +2,10 @@
   <div>
     <el-form label-position="top">
       <el-form-item label="表单布局">
-        <el-radio-group v-model="formConfig.layout">
-          <el-radio-button value="horizontal">水平</el-radio-button>
-          <el-radio-button value="vertical" :disabled="formConfig.labelLayout === 'Grid'">垂直</el-radio-button>
-          <el-radio-button value="inline" :disabled="formConfig.labelLayout === 'Grid'">行内</el-radio-button>
+        <el-radio-group v-model="formConfig.labelPosition">
+          <el-radio-button value="left">左对齐</el-radio-button>
+          <el-radio-button value="right" :disabled="formConfig.labelLayout === 'Grid'">右对齐</el-radio-button>
+          <el-radio-button value="top" :disabled="formConfig.labelLayout === 'Grid'">顶部对齐</el-radio-button>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="标签布局">
@@ -45,15 +45,10 @@
 
       <el-form-item label="表单属性">
         <el-col>
-          <el-checkbox v-model:checked="formConfig.colon" v-if="formConfig.layout == 'horizontal'">
-            label后面显示冒号
-          </el-checkbox>
+          <el-checkbox v-model="formConfig.disabled"> 禁用 </el-checkbox>
         </el-col>
         <el-col>
-          <el-checkbox v-model:checked="formConfig.disabled"> 禁用 </el-checkbox>
-        </el-col>
-        <el-col>
-          <el-checkbox v-model:checked="formConfig.hideRequiredMark"> 隐藏必选标记 </el-checkbox>
+          <el-checkbox v-model="formConfig.hideRequiredMark"> 隐藏必选标记 </el-checkbox>
         </el-col>
       </el-form-item>
     </el-form>

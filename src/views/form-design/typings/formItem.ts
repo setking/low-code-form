@@ -2,13 +2,6 @@ import type { HTMLAttributes } from 'vue';
 
 export interface FormItem {
   /**
-   * Used with label, whether to display : after label text.
-   * @default true
-   * @type boolean
-   */
-  colon?: boolean;
-
-  /**
    * The extra prompt message. It is similar to help. Usage example: to display error message and prompt message at the same time.
    * @type any (string | slot)
    */

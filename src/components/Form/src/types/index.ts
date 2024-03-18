@@ -1,1 +1,1 @@
-export type ComponentType = 'ElButton' | 'ElRadio' | 'ElInput' | 'ElDivider' | 'ElSelect';
+export type ComponentType = 'ElButton' | 'ElRadio' | 'ElInput' | 'ElDivider' | 'ElSelect' | 'UseSelect';

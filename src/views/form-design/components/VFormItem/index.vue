@@ -1,36 +1,39 @@
 <template>
   <el-col v-bind="colPropsComputed">
-    <el-form-item v-bind="{ ...formItemProps }">
-      <template #label v-if="!formItemProps.hiddenLabel && schema.component !== 'Divider'">
-        <el-tooltip>
-          <template #content v-if="schema.helpMessage"
-            ><span>{{ schema.helpMessage }}</span></template
-          >
-          <span>{{ schema.label }}</span>
-        </el-tooltip>
-      </template>
-      <slot
-        v-if="schema.componentProps && schema.componentProps?.slotName"
-        :name="schema.componentProps.slotName"
-        v-bind="schema"
-      ></slot>
-      <el-divider v-else-if="schema.component == 'Divider' && schema.label && !formItemProps.hiddenLabel">{{
-        schema.label
-      }}</el-divider>
-      <!-- 部分控件需要一个空div -->
-      <div>
-        <component
-          :is="componentItem"
-          class="v-form-item-wrapper"
-          v-bind="{ ...cmpProps, ...asyncProps }"
-          :schema="schema"
-          :style="schema.width ? { width: schema.width } : {}"
-          @change="handleChange"
-          @click="handleClick(schema)"
-        />
-      </div>
-      <span v-if="['ElButton'].includes(schema.component)">{{ schema.label }}</span>
-    </el-form-item>
+    <el-form v-bind="{ ...formItemProps }" style="width: 100%">
+      <el-form-item>
+        <template #label v-if="!formItemProps.hiddenLabel && schema.component !== 'Divider'">
+          <el-tooltip>
+            <template #content v-if="schema.helpMessage"
+              ><span>{{ schema.helpMessage }}</span></template
+            >
+            <span>{{ schema.label }}</span>
+          </el-tooltip>
+        </template>
+        <slot
+          v-if="schema.componentProps && schema.componentProps?.slotName"
+          :name="schema.componentProps.slotName"
+          v-bind="schema"
+        ></slot>
+        <el-divider v-else-if="schema.component == 'Divider' && schema.label && !formItemProps.hiddenLabel">{{
+          schema.label
+        }}</el-divider>
+        <!-- 部分控件需要一个空div -->
+        <div>
+          <component
+            :is="componentItem"
+            class="v-form-item-wrapper"
+            v-bind="{ ...cmpProps, ...asyncProps }"
+            :schema="schema"
+            :style="schema.width ? { width: schema.width } : {}"
+            @change="handleChange"
+            @click="handleClick(schema)"
+          />
+          {{ cmpProps }}
+        </div>
+        <span v-if="['ElButton'].includes(schema.component)">{{ schema.label }}</span>
+      </el-form-item>
+    </el-form>
   </el-col>
 </template>
 <script lang="ts" setup>
@@ -68,18 +71,26 @@ const colPropsComputed = computed(() => {
 });
 const formItemProps = computed(() => {
   const { formConfig } = unref(props);
-  let { field, required, rules } = unref(props.schema);
-  const { colon } = formConfig;
+  let { field, required, rules, labelCol } = unref(props.schema);
   const { itemProps } = unref(props.schema);
   /**
    * 将字符串正则格式化成正则表达式
    */
-
+  labelCol = labelCol
+    ? labelCol
+    : formConfig.layout === 'horizontal'
+      ? formConfig.labelLayout === 'flex'
+        ? `${formConfig.labelWidth}px`
+        : formConfig.labelCol
+      : {};
+  const style = formConfig.layout === 'horizontal' && formConfig.labelLayout === 'flex' ? { display: 'flex' } : {};
   const newConfig = Object.assign(
     {},
     {
       name: field,
-      colon,
+      labelWidth: labelCol,
+      labelPosition: formConfig.labelPosition,
+      style: { ...style },
       required,
       rules,
     },
@@ -88,6 +99,7 @@ const formItemProps = computed(() => {
   if (!itemProps?.rules) {
     newConfig.rules = rules;
   }
+  console.log(newConfig);
   return newConfig;
 }) as Recordable<any>;
 const componentItem = computed(() => componentMap.get(props.schema?.component as string));
@@ -128,6 +140,7 @@ const cmpProps = computed(() => {
     [isCheck ? 'checked' : 'value']: formData1.value[field!],
   };
 });
+console.log('asyncProps', cmpProps);
 const handleChange = function (e) {
   const isCheck = ['ElSwitch', 'ElCheckbox', 'ElRadio'].includes(props.schema.component);
   const target = e ? e.target : null;

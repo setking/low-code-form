@@ -4,8 +4,8 @@
       <el-tab-pane label="表单" name="1">
         <FormProps />
       </el-tab-pane>
-      <el-tab-pane label="控件" name="2">用户管理</el-tab-pane>
-      <el-tab-pane label="组件" name="3">
+      <!-- <el-tab-pane label="控件" name="2">用户管理</el-tab-pane> -->
+      <el-tab-pane label="组件" name="2">
         <slot v-if="slotProps" :name="slotProps.component + 'Props'"></slot>
         <ComponentProps v-else />
       </el-tab-pane>

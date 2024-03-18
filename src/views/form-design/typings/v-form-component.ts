@@ -4,6 +4,7 @@ import { FormItem } from './formItem';
 import { IVFormMethods } from '../hook/useVFormMethods';
 import { FormProps } from 'element-plus';
 type labelLayout = 'flex' | 'Grid';
+type labelPosition = 'left' | 'right' | 'top';
 export type PropsTabKey = 1 | 2 | 3;
 type ColSpanType = number | string;
 declare type Value = [number, number] | number;
@@ -70,6 +71,7 @@ export type PickAntFormConfig = Pick<FormProps, 'size' | 'disabled' | 'labelWidt
 // 使用extends 而不使用 &联结 是为了避免 type:check指令类型重载错误
 export interface IFormConfig extends PickAntFormConfig {
   labelLayout?: labelLayout;
+  // labelPosition?: labelPosition;
   labelWidth?: number;
   schemas: IVFormComponent[];
   currentItem?: IVFormComponent;
@@ -102,13 +104,6 @@ export interface AForm {
    * @type IACol
    */
   wrapperCol: IACol;
-
-  /**
-   * change default props colon value of Form.Item (only effective when prop layout is horizontal)
-   * @type boolean
-   * @default true
-   */
-  colon: boolean;
 
   /**
    * text align of label of all items
