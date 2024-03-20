@@ -60,4 +60,3 @@ const handleCopy = () => {
   formDesignMethods.handleCopy();
 };
 </script>
-<style lang="scss" scoped></style>

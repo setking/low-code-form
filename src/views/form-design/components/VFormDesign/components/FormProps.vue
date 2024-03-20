@@ -8,6 +8,13 @@
           <el-radio-button value="top" :disabled="formConfig.labelLayout === 'Grid'">顶部对齐</el-radio-button>
         </el-radio-group>
       </el-form-item>
+      <el-form-item label="控件大小">
+        <el-radio-group v-model="formConfig.size">
+          <el-radio-button value="large">大</el-radio-button>
+          <el-radio-button value="medium">默认</el-radio-button>
+          <el-radio-button value="small">小</el-radio-button>
+        </el-radio-group>
+      </el-form-item>
       <el-form-item label="标签布局">
         <el-radio-group v-model="formConfig.labelLayout" @change="lableLayoutChange">
           <el-radio-button value="flex">固定</el-radio-button>
@@ -17,7 +24,7 @@
       <el-form-item label="标签宽度（px）" v-show="formConfig.labelLayout === 'flex'">
         <el-input-number v-model="formConfig.labelWidth" controls-position="right" :min="1" :step="1"></el-input-number>
       </el-form-item>
-      <div v-if="formConfig.labelLayout === 'Grid'">
+      <!-- <div v-if="formConfig.labelLayout === 'Grid'">
         <el-form-item label="labelCol">
           <div class="slider-width">
             <el-slider v-model="sliderSpan" :max="24" />
@@ -36,12 +43,12 @@
         </el-form-item>
         <el-form-item label="控件大小">
           <el-radio-group v-model="formConfig.size">
-            <el-radio-button value="default">默认</el-radio-button>
+            <el-radio-button value="medium">默认</el-radio-button>
             <el-radio-button value="small">小</el-radio-button>
-            <el-radio-button value="large">大</el-radio-button>
+            <el-radio-button value="mini">mini</el-radio-button>
           </el-radio-group>
         </el-form-item>
-      </div>
+      </div> -->
 
       <el-form-item label="表单属性">
         <el-col>
@@ -76,7 +83,7 @@ const sliderSpan = computed(() => {
   return 0;
 });
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .slider-width {
   width: 100%;
   padding-left: 30px;

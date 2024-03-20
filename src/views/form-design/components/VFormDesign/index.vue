@@ -15,7 +15,14 @@
             <div>自定义控件</div>
           </el-collapse-item>
           <el-collapse-item title="布局控件" name="3">
-            <div>布局控件</div>
+            <div>
+              <CollapseItem
+                :list="layoutComponents"
+                :handleListPush="handleListPushDrag"
+                @add-attrs="handleAddAttrs"
+                @handle-list-push="handleListPush"
+              />
+            </div>
           </el-collapse-item>
         </el-collapse>
       </el-col>
@@ -48,8 +55,8 @@
 
 <script lang="ts" setup>
 import { provide, Ref, ref } from 'vue';
-import { baseComponents } from '../../core/formItemConfig';
-import CollapseItem from './modules/collapseltem.vue';
+import { baseComponents, customComponents, layoutComponents } from '../../core/formItemConfig';
+import CollapseItem from './modules/CollapseItem.vue';
 import PropsPanel from './modules/PropsPanel.vue';
 import FormComponentPanel from './modules/FormComponentPanel.vue';
 import Toolbar from './modules/Toolbar.vue';

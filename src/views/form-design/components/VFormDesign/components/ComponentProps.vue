@@ -22,6 +22,9 @@
               v-model="formConfig.currentItem.componentProps[item.name]"
             />
           </el-form-item>
+          <el-form-item label="标签">
+            <el-input v-model="formConfig.currentItem.label" />
+          </el-form-item>
           <el-form-item label="控制属性">
             <el-col v-for="item in controlOptions" :key="item.name">
               <el-checkbox

@@ -1,39 +1,37 @@
 <template>
   <el-col v-bind="colPropsComputed">
-    <el-form v-bind="{ ...formItemProps }" style="width: 100%">
-      <el-form-item>
-        <template #label v-if="!formItemProps.hiddenLabel && schema.component !== 'Divider'">
-          <el-tooltip>
-            <template #content v-if="schema.helpMessage"
-              ><span>{{ schema.helpMessage }}</span></template
-            >
-            <span>{{ schema.label }}</span>
-          </el-tooltip>
-        </template>
-        <slot
-          v-if="schema.componentProps && schema.componentProps?.slotName"
-          :name="schema.componentProps.slotName"
-          v-bind="schema"
-        ></slot>
-        <el-divider v-else-if="schema.component == 'Divider' && schema.label && !formItemProps.hiddenLabel">{{
-          schema.label
-        }}</el-divider>
-        <!-- 部分控件需要一个空div -->
-        <div>
-          <component
-            :is="componentItem"
-            class="v-form-item-wrapper"
-            v-bind="{ ...cmpProps, ...asyncProps }"
-            :schema="schema"
-            :style="schema.width ? { width: schema.width } : {}"
-            @change="handleChange"
-            @click="handleClick(schema)"
-          />
-          {{ cmpProps }}
-        </div>
-        <span v-if="['ElButton'].includes(schema.component)">{{ schema.label }}</span>
-      </el-form-item>
-    </el-form>
+    <el-form-item>
+      <template #label v-if="!formItemProps.hiddenLabel && schema.component !== 'Divider'">
+        <el-tooltip>
+          <template #content v-if="schema.helpMessage"
+            ><span>{{ schema.helpMessage }}</span></template
+          >
+          <span>{{ schema.label }}</span>
+        </el-tooltip>
+      </template>
+      <slot
+        v-if="schema.componentProps && schema.componentProps?.slotName"
+        :name="schema.componentProps.slotName"
+        v-bind="schema"
+      ></slot>
+      <el-divider v-else-if="schema.component == 'Divider' && schema.label && !formItemProps.hiddenLabel">{{
+        schema.label
+      }}</el-divider>
+      <!-- 部分控件需要一个空div -->
+      <div style="width: 100%">
+        <component
+          :is="componentItem"
+          class="v-form-item-wrapper"
+          v-bind="{ ...cmpProps, ...asyncProps }"
+          :schema="schema"
+          :style="schema.width ? { width: schema.width } : {}"
+          @change="handleChange"
+          @click="handleClick(schema)"
+        />
+        <!-- {{ formItemProps }} -->
+      </div>
+      <span v-if="['ElButton'].includes(schema.component)">{{ schema.label }}</span>
+    </el-form-item>
   </el-col>
 </template>
 <script lang="ts" setup>
@@ -103,7 +101,7 @@ const formItemProps = computed(() => {
   return newConfig;
 }) as Recordable<any>;
 const componentItem = computed(() => componentMap.get(props.schema?.component as string));
-console.log('componentItem', componentItem.value);
+
 const handleClick = (schema: IVFormComponent) => {
   if (schema.component === 'ElButton' && schema.componentProps?.handle) {
     emits(schema.componentProps?.handle);

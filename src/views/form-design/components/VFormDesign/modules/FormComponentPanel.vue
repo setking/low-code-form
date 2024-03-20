@@ -1,7 +1,7 @@
 <template>
   <div class="form-panel v-form-container">
     <el-empty v-show="formConfig.schemas.length === 0" class="empty-text" description="从左侧选择控件添加" />
-    <el-form ref="form" :model="formConfig">
+    <el-form ref="form" v-bind="formConfig" :model="formConfig">
       <div class="draggable-box">
         <draggable
           v-model="formConfig.schemas"
@@ -32,7 +32,6 @@
 import draggable from 'vuedraggable';
 import LayoutItem from '../components/LayoutItem.vue';
 import { useFormDesignState } from '../../../hook/useFormDesignState';
-
 import { cloneDeep } from 'lodash-es';
 const { formConfig } = useFormDesignState();
 const emits = defineEmits(['handleSetSelectItem']);

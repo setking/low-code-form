@@ -78,7 +78,7 @@ const state = reactive<{ toolbarsConfigs: IToolbarsConfig[] }>({
 const historyRef = inject('historyReturn') as UseRefHistoryReturn<IFormConfig, IFormConfig>;
 const { undo, redo, canUndo, canRedo } = historyRef;
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .tool-bar {
   width: 100%;
   display: flex;

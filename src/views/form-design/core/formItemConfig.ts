@@ -81,6 +81,24 @@ export const baseComponents: IVFormComponent[] = [
     },
   },
   {
+    component: 'ElRadioGroup',
+    label: '单选框组',
+    field: '',
+    colProps: { span: 24 },
+    componentProps: {
+      options: [
+        {
+          label: '选项1',
+          value: '1',
+        },
+        {
+          label: '选项2',
+          value: '2',
+        },
+      ],
+    },
+  },
+  {
     component: 'ElSelect',
     label: '下拉选择',
     field: '',

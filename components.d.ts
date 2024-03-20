@@ -33,6 +33,7 @@ declare module 'vue' {
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     FormItem: (typeof import('./src/components/form/formItem.vue'))['default']
+    Grid: typeof import('./src/components/Form/component/Grid.vue')['default']
     HelloWorld: (typeof import('./src/components/HelloWorld.vue'))['default']
     JsonPreview: typeof import('./src/components/Form/src/codeEditor/src/json-preview/JsonPreview.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
